@@ -35,11 +35,11 @@ code {
   color: white;
   position: relative;
   border-bottom: 1px solid rgb(100, 100, 100);
-  width: 380px;
+  width: 300px;
 }
 
 .user-card .text-content {
-  width: 170px;
+  width: 140px;
 }
 
 .user-card .name {
@@ -59,7 +59,7 @@ code {
   border-radius: 50%;
   background: rgb(0, 219, 0);
   position: absolute;
-  top: -3px;
+  top: 1px;
   right: -3px;
   z-index: 2;
 }
