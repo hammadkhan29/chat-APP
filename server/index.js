@@ -3,6 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from "./db/db.js";
 import userRoute from "./routes/userRoute.js";
+import chatRoutes from './routes/chatRoutes.js'
+import messageRoutes from './routes/messageRoutes.js'
 
 dotenv.config();
 
@@ -15,6 +17,8 @@ app.use(cors());
 
 // Using routes
 app.use('/api/users/' , userRoute);
+app.use('/api/chats/' , chatRoutes);
+app.use('/api/messages/' , messageRoutes);
 
 const port  = process.env.PORT || 8000 ;
 
