@@ -11,7 +11,7 @@ const createToken = (_id) =>{
 export const registerUser = async (req , res) => {
     try{
         const {name , email , password} = req.body;
-        console.log('1')
+  //      console.log('1')
         let user = await userModel.findOne({email});
         //Check user already exist or not
         if(user) {
@@ -19,25 +19,25 @@ export const registerUser = async (req , res) => {
         }
         // Validate that all fields are present 
         if(!name || !email || !password) {
-            console.log('2a')
+ //           console.log('2a')
             return res.status(400).json({message:'All fields are required'});
         }
         if (!validator.isEmail(email)){
-            console.log('2b')
+//            console.log('2b')
             return res.status(400).json({message:'Email is invalid'});
         }
         if (!validator.isStrongPassword(password)){
-            console.log('2c')
+//            console.log('2c')
             return res.status(400).json({message:'Password is not strong'});
         }
         user = new userModel({name , email , password})
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password , salt);
-        console.log('3')
+//        console.log('3')
 
         await user.save();
         const token = createToken(user._id)
-        console.log('4')
+//        console.log('4')
         return res.status(200).json({
             user: user, token: token , success: true , message: 'User created'
         })    

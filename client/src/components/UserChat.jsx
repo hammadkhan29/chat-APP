@@ -5,7 +5,7 @@ import Avatar from '../assets/avatar.svg'
 
 const UserChat = ({chat , user}) => {
     const {recipientUser} = useFetchRecipient({chat , user})
-    console.log(recipientUser)
+//    console.log(recipientUser)
   return (
     <Stack className='d-flex user-card align-items-center p-2 justify-content-between'>
     <div className='d-flex'>
@@ -14,7 +14,7 @@ const UserChat = ({chat , user}) => {
         </div>
         <div className='text-content'>
             <div className='name'>
-                {recipientUser.name}
+                {recipientUser?.name}
             </div>
             <div className='text'>
                 Text Message

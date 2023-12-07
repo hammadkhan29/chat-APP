@@ -19,9 +19,9 @@ export const createMessage = async (req,res)=>{
 export const getMessage = async (req , res) =>{
     try{
         const {chatId} = req.params
-        console.log(chatId)
+//        console.log(chatId)
         const messages = await messageModel.find({chatId:chatId})
-        console.log(messages)
+//        console.log(messages)
         return res.status(200).json({data:messages , message: 'Message fetched' , succes:true})
     }catch(error){
         console.log(error)

@@ -7,6 +7,7 @@ export const createChat = async (req , res) =>{
         const chat = await chatModel.findOne({
             members:{$all : [firstId,secondId]}
         })
+//        console.log(chat)
 
         if(chat){
             return res.status(200).json({chat:chat , message: 'Chat exists' , succes:true})
@@ -42,8 +43,8 @@ export const findUserChats = async (req , res) =>{
 
 export const findChats = async (req , res) =>{
     const {firstId , secondId} = req.params
-    console.log(firstId)
-    console.log(secondId)
+//    console.log(firstId)
+//    console.log(secondId)
     try{
         const chat = await chatModel.findOne({
             members: {$all : [firstId,secondId]}
