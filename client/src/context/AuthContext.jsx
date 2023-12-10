@@ -12,6 +12,7 @@ export const AuthContextProvider = ({children}) =>{
     const [token , setToken] = useState(null)
     useEffect(()=>{
         const user = localStorage.getItem('user')
+
         setUser(JSON.parse(user))
         const token = localStorage.getItem('token')
         setToken(token)

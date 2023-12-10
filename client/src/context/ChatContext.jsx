@@ -1,5 +1,6 @@
 import { createContext , useCallback, useEffect, useState } from "react";
 import { getRequest , postRequest, baseUrl } from "../utils/services";
+import {io} from 'socket.io-client';
 
 export const ChatContext = createContext()
 export const ChatContextProvider = ({children , user}) =>{
@@ -10,8 +11,56 @@ export const ChatContextProvider = ({children , user}) =>{
     const [currentChat , setCurrentChat] = useState(null)
     const [messages , setMessages] = useState(null)
     const [newMessage , setNewMessage] = useState(null)
+    const [socket , setSocket] = useState(null)
+    const [onlineUser , setOnlineUser] = useState([])
+    //useEffect for socket connection
+    useEffect(()=>{
+        const newSocket= io("http://localhost:4000")
+        setSocket(newSocket)
+        console.log('socket here',newSocket)
 
+        return ()=>{
+            newSocket.disconnect()
+        }
+    },[user])
+    console.log('onlineuser',onlineUser)
+
+    //emit a new event from socket
+    useEffect(()=>{
+        if (socket === null) return 
+        socket.emit('addNewUser' , user?._id)
+
+        socket.on('getOnlineUser', (res)=>{
+            setOnlineUser(res)
+        })
+
+        return () => {
+            socket.off('getOnlineUser')
+        }
+    } ,[socket])
     // useEffect for updating userChats state
+
+    //send message
+    useEffect(()=>{
+        if (socket === null) return 
+        const recipientId = currentChat?.members.find((id)=> id !== user._id)
+        socket.emit("sendMessage" , {...newMessage , recipientId})
+    } ,[newMessage])
+
+    // receieve message
+    useEffect(()=>{
+        if (socket === null) return 
+
+        socket.on("getMessage" , res => {
+            if (currentChat?._id !== res.chatId) return 
+
+            setMessages(prev => [...prev , res])
+        })
+
+        return ()=>{
+            socket.off("getMessage")
+        }
+    } , [socket , currentChat])
 
     useEffect(()=>{
         const getUserChats = async () =>{
@@ -134,7 +183,8 @@ export const ChatContextProvider = ({children , user}) =>{
             updateCurrentChat,
             currentChat,
             messages ,
-            sendTextMessage
+            sendTextMessage,
+            onlineUser
 
         }}>
         {children}
