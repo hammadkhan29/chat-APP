@@ -1,27 +1,34 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {Container , Nav , Navbar , Stack} from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link , useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
 import { useContext } from 'react'
+//import Notification from './Notification'
+
 const NavBar = () => {
-  const {token , setToken , user } = useContext(AuthContext)
+
+  const { user , setUser } = useContext(AuthContext)
+//  console.log('checking login',user)
+  const navigate = useNavigate()
 
   const handleLogout = () =>{
     localStorage.removeItem('user')
-    localStorage.removeItem('token')
-    window.location.reload();
+    setUser(null)
+    navigate('/login')
   }
+
   return (
     <Navbar bg='dark' className='mb-4' style={{height:'3.75rem'}}>
         <Container>
         <h2>
         <Link to='/' className='text-light text-decoration-none'>ChatApp</Link>
         </h2>
-        { token? 
+        { user? 
           <>
           <span className='text-warning'>Logged in as {user?.name || ''}</span>
           <Nav>
-          <Stack direction='horizontal'>
+          <Stack direction='horizontal' className='d-flex align-items-center'>
+{/*          <Notification className='m-2'/> */}
           <Link onClick={handleLogout} to='/login' className='text-light text-decoration-none m-2'>Logout</Link>
           </Stack>
           </Nav>

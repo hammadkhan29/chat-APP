@@ -1,35 +1,33 @@
-import {useEffect , useState} from 'react'
-import { baseUrl, getRequest } from '../utils/services'
+import { useContext, useEffect, useState } from 'react';
+import { baseUrl, getRequest } from '../utils/services';
 
-export const useFetchRecipient = ({chat , user}) => {
-    const [recipientUser ,setRecipientUser] = useState(null)
-    const [error , setError] = useState(null)
+export const useFetchRecipient = ({ chat, user }) => {
+  const [recipientUser, setRecipientUser] = useState(null);
+  const [error, setError] = useState(null);
 
-    const recipientId = chat?.members.find((id)=> id !== user._id)
+  const recipientId = chat?.members.find((id) => id !== user?._id);
 
-    useEffect(()=>{
-        const getUser = async () =>{
-            if (!recipientId) return null
-            try{
-                console.log('hello')
-                const response = await getRequest(`${baseUrl}/users/find/${recipientId}`)
-                if (response.error){
-                    return setError(response)
-                }
-                localStorage.setItem('recipient' , JSON.stringify(response.user))
-                console.log(response.user)
-                setRecipientUser(response.user)
-            }catch(error){
-                console.log(error)
-            }    
-            }
-        getUser()
-    } ,[recipientId])
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        if (!recipientId) return null;
+        const response = await getRequest(`${baseUrl}/users/find/${recipientId}`);
+        if (response.error) {
+          setError(response);
+        } else {
+          setRecipientUser(response.user);
+        }
+      } catch (error) {
+        setError({ error: 'An error occurred while fetching the recipient user.' });
+      }
+    };
 
-    useEffect(() => {
-        console.log(recipientUser);
-      }, [recipientUser]);
-    
-    return {recipientUser , error}
-}
+    getUser();
+  }, [recipientId]);
 
+  useEffect(() => {
+//    console.log('recipient user in hook', recipientUser);
+  }, [recipientUser]); // Now you can log recipientUser after it's updated
+
+  return { recipientUser, error };
+};

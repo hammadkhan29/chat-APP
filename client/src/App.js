@@ -8,6 +8,7 @@ import Navbar from './components/Navbar';
 import { AuthContext } from './context/AuthContext';
 import { useContext } from 'react';
 import { ChatContextProvider } from './context/ChatContext';
+import ErrorBoundary from './ErrorBoundary'
 
 const ProtectedRoute = ({token , ...props}) =>{
   return (
@@ -17,26 +18,25 @@ const ProtectedRoute = ({token , ...props}) =>{
     <Outlet/>
   )
 }
+
+
 const App = () => {
-  const token = localStorage.getItem('token')
   const {user} = useContext(AuthContext)
-  return (
+return (
+  <>
+    <ErrorBoundary>
     <ChatContextProvider user={user}>
     <Navbar/>
     <Container className=''>
     <Routes>
       <Route path='/' element={<Chat/>}/>
-
-      <Route path='/login' element={<ProtectedRoute token={token}/>}>
-        <Route path='/login' element={<Login/>}/>      
-      </Route>
-
-      <Route path='/register' element={<ProtectedRoute token={token}/>}>
-        <Route path='/register' element={<Registe/>}/>
-      </Route>
+      <Route path='/login' element={<Login/>}/>      
+      <Route path='/register' element={<Registe/>}/>
     </Routes>
     </Container>
     </ChatContextProvider>
+    </ErrorBoundary>
+    </>
   )
 }
 

@@ -6,11 +6,10 @@ import { ChatContext } from '../context/ChatContext'
 
 const UserChat = ({chat , user}) => {
     const {recipientUser} = useFetchRecipient({chat , user})
-//    console.log(recipientUser)
+//    console.log('user chat recipient' ,recipientUser)
     const {onlineUser} = useContext(ChatContext)
     const isOnline = onlineUser?.some((user)=> user?.userId === recipientUser?._id )
-    console.log('isOnline' , isOnline)
-  return (
+    return (
     <Stack className='d-flex user-card align-items-center p-2 justify-content-between'>
     <div className='d-flex'>
         <div className='mr-2'>
