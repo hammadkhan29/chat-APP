@@ -13,6 +13,9 @@ const Chat = () => {
   const {userChats  , isLoading  , updateCurrentChat , currentChat} = useContext(ChatContext)
 
 //  console.log('Chat' , userChats)
+//  const sortedUserChats = userChats.sort(
+//    (a, b) => a.createdAt - b.createdAt);
+ // console.log('sorted chats' , sortedUserChats)
 
   return (
       <>

@@ -3,7 +3,7 @@ import {Container , Nav , Navbar , Stack} from 'react-bootstrap'
 import { Link , useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
 import { useContext } from 'react'
-//import Notification from './Notification'
+import Notification from './Notification'
 
 const NavBar = () => {
 
@@ -28,7 +28,7 @@ const NavBar = () => {
           <span className='text-warning'>Logged in as {user?.name || ''}</span>
           <Nav>
           <Stack direction='horizontal' className='d-flex align-items-center'>
-{/*          <Notification className='m-2'/> */}
+          <Notification className='m-2'/>
           <Link onClick={handleLogout} to='/login' className='text-light text-decoration-none m-2'>Logout</Link>
           </Stack>
           </Nav>

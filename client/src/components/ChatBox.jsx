@@ -10,7 +10,7 @@ import InputEmoji from 'react-input-emoji'
 
 const ChatBox = () => {
     const {user} = useContext(AuthContext)
-    const {currentChat , messages  , sendTextMessage} = useContext(ChatContext)
+    const {currentChat , messages  , sendTextMessage , updateCurrentChat} = useContext(ChatContext)
     const [textMessage , setTextMessage] = useState('')
     const {recipientUser1} = useFetchCurrentRecipient(currentChat , user)
 //    const recipientUser = JSON.parse(localStorage.getItem('recipient'))
@@ -26,9 +26,18 @@ const ChatBox = () => {
   return (
     <>
     <Stack className='chat-box'>
-      <div className="chat-header">
-        <strong>{recipientUser1?.name}</strong>
-    </div>  
+    <div className="chat-header" style={{display:'flex'}}>
+    <div >
+    <strong style={{fontSize:'24px'}}>{recipientUser1?.name}</strong>
+  </div>  
+  <div style={{marginLeft:'auto', cursor:'pointer' }} 
+  onClick = {()=>{
+      updateCurrentChat(null)
+  }}>
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+  <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+</svg></div>
+</div>
       <Stack className='messages'>
           {messages && messages.map((message , index)=>{
             return (
